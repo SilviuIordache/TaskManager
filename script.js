@@ -1,34 +1,17 @@
+// -------MODEL--------------------
 class Task {
     constructor(id, title) {
         this.id = id;
         this.title = title;
-    } 
+    }
 }
 
-active = [];
-completed = [];
-
-function populate() {
-    //dummy tasks input - to be replaced with the data from the input fields
-    let titlesActive = ["Clean room", "Fix car", "Gardening", "Groceries"];
-    let titlesCompleted = ["Sleep", "Play"];
-
-    // populate "active" tasks list
-    titlesActive.forEach(e => createTask(e, active));
-    deleteTask(1, active);
-    createTask("Go running", active);
-
-    // also populate "completed" tasks list
-    titlesCompleted.forEach(e => createTask(e, completed));
-}
-
-// finds the array index of a task by id
 function getIndexOfId(id, arr) {
     return arr.findIndex(el => el.id === id);
 }
 
-// create a new task and add it to the target array
-function createTask(title, arr) {
+
+function addTaskToArr(title, arr) {
     // generate unique ids for each task obj
     let id;
     if (arr.length === 0) {
@@ -39,29 +22,67 @@ function createTask(title, arr) {
     }
     const task = new Task(id, title);
 
-    // add task to the array
     arr.push(task);
 
-    // add task to the DOM
-    addTask_UI(id, title);
 }
 
-// edit a task
-function editTask(id, title, arr) {
-    const index = getIndexOfId(id, arr);
-    arr[index].title = title;
-}
-
-// deletes a task by id
-function deleteTask(id, arr) {
+function delTaskFromArr(id, arr) {
     const index = getIndexOfId(id, arr);
     if (index != -1) {
         arr.splice(index, 1);
     }
 }
 
-// complete a task by id
+function editTask(id, title, arr) {
+    const index = getIndexOfId(id, arr);
+    arr[index].title = title;
+}
+
+
+
+// -------VIEW--------------------
+function addTaskToUI(id, text) {
+    const item = `<li id="li-${id}">${text}<input id="box-${id}" class="checkboxes" type="checkbox"></li>`
+
+    DOM.list.insertAdjacentHTML('beforeend', item);
+
+    form.reset();
+
+}
+
+function delTaskFromUI(id) {
+    
+}
+
+//--------CONTROLLER--------------
+let active = [];
+let completed = [];
+
+function createTask() {
+
+    if (DOM.input.value === "") {
+        alert("Cannot add empty task");
+    } else {
+        // 1. Get data from the input field
+        let title = input.value;
+        let id = 1;
+
+        // 2. add task to the array
+        addTaskToArr(title, active);
+
+        // 3. add task to the UI
+        addTaskToUI(id, title);
+    }
+
+}
+
+// retrieve the id of the task from the checked box (they share the same id)
+
 function completeTask(id) {
+
+    // 1. completeTask logic
+
+    // 2. update UI - remove task from the list
     const index = getIndexOfId(id, active);
     if (index === -1) {
         console.log(`Trying to complete inexistent task of id ${id}`);
@@ -75,47 +96,38 @@ function completeTask(id) {
         // create a new Task with the same title and add it to the completed tasks
         createTask(tempTitle, completed)
 
+        // TO DO: create a second list for completed tasks, with HTML & CSS 
+
         // delete the task from the active list
-        deleteTask(id, active);
+        delTaskFromArr(id, active);
+
+        delTaskFromUI(id, active)
     }
 }
 
+
 const DOM = {
     form: document.getElementById("form"),
-    input:document.getElementById("input"),
+    input: document.getElementById("input"),
     btn: document.getElementById("btn"),
     list: document.getElementById("list")
 }
 
-// button event listener
 DOM.btn.addEventListener('click', createTask);
 
-function addTask_UI(id, text) {
-    //var id = 3;
-    //var text = "alabala";
-    const item = `<li id="li-${id}">${text}<input id="box-${id}" class="checkboxes" type="checkbox"></li>`
+//-------TESTING--------------------
+function populateArrays() {
+    //dummy tasks input - to be replaced with the data from the input fields
+    let titlesActive = ["Clean room", "Fix car", "Gardening", "Groceries"];
+    let titlesCompleted = ["Sleep", "Play"];
 
-    DOM.list.insertAdjacentHTML('beforeend', item);
+    // populate "active" tasks list
+    titlesActive.forEach(e => addTaskToArr(e, active));
+    delTaskFromArr(1, active);
+    addTaskToArr("Go running", active);
+
+    // also populate "completed" tasks list
+    titlesCompleted.forEach(e => addTaskToArr(e, completed));
 }
 
-function initializeList_UI() {
-
-}
-
-
-
-//populate();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+populateArrays();
