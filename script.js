@@ -110,7 +110,7 @@ const DOM = {
     form: document.getElementById("form"),
     input: document.getElementById("input"),
     btn: document.getElementById("btn"),
-    list: document.getElementById("list")
+    list_active: document.getElementById("list_active")
 }
 
 DOM.btn.addEventListener('click', createTask);

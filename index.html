@@ -5,7 +5,7 @@
     <title>todolist</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
+
     <link type="text/css" rel="stylesheet" href="style.css">
 </head>
 
@@ -17,7 +17,7 @@
             <h1 class="display-2 text-center">Tasks</h1>
             <p class="lead text-center">Add your tasks below</p>
             <div class="row">
-                <form id="form" class="col-8 mx-auto">
+                <form id="form" class="col- mx-auto">
                     <div class="input-group">
                         <input id="input" class="form-control" placeholder="enter new item">
                         <span>
@@ -26,13 +26,37 @@
                     </div>
                 </form>
             </div>
-            <div class="row">
-                <ul id="list" class="list col-8 mx-auto">
-                    <!-- <li id="li-3">ceva<input id="box-3" class="checkboxes" type="checkbox"></li> -->
-                    <!-- <li>this is a todo list item<input type="checkbox" aria-label="Checkbox for following text input"></li>
-                    <li>this is a todo list item<input type="checkbox" aria-label="Checkbox for following text input"></li>
-                    <li>this is a todo list item<input type="checkbox" aria-label="Checkbox for following text input"></li> -->
-                </ul>
+            <div class="lists_container">
+                <div id="list_container">
+                    <p>Active</p>
+                    <ul id="list_active" class="list col-4 mx-auto">
+                        <!-- <li id="li-3">ceva<input id="box-3" class="checkboxes" type="checkbox"></li> -->
+                        <li>this is a todo list item<input type="checkbox"
+                                aria-label="Checkbox for following text input">
+                        </li>
+                        <li>this is a todo list item<input type="checkbox"
+                                aria-label="Checkbox for following text input">
+                        </li>
+                        <li>this is a todo list item<input type="checkbox"
+                                aria-label="Checkbox for following text input">
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <p>Completed</p>
+                    <ul id="list_completed" class="list col-4 mx-auto">
+                        <li>this is a todo list item<input type="checkbox"
+                                aria-label="Checkbox for following text input">
+                        </li>
+                        <li>this is a todo list item<input type="checkbox"
+                                aria-label="Checkbox for following text input">
+                        </li>
+                        <li>this is a todo list item<input type="checkbox"
+                                aria-label="Checkbox for following text input">
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>
