@@ -44,7 +44,8 @@ function addTaskToUI(task, DOMList) {
   const id = task.id;
   const title = task.title;
   
-  const item = `<li id="li-${id}" class="li_${DOMList}">${title}<input id="box-${id}" class="checkboxes" type="checkbox"></span></button></li>`
+  const item = `<li id="li-${id}" class="text-wrap li_${DOMList}">${title}
+  <input id="box-${id}" class="checkboxes" type="checkbox"></li>`
 
   if (DOMList === "active") {
     DOM.list_active.insertAdjacentHTML('beforeend', item);

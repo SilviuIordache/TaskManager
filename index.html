@@ -9,7 +9,8 @@
   <link type="text/css" rel="stylesheet" href="style.css">
   <script type="text/javascript">
     function noenter() {
-      return !(window.event && window.event.keyCode == 13); }
+      return !(window.event && window.event.keyCode == 13);
+    }
   </script>
 </head>
 
@@ -17,53 +18,108 @@
 
 <body>
   <div class="hero container-fluid">
-    <div class="top container-fluid">
-      <h1 class="display-2 text-center">To do list</h1>
-      <p class="lead text-center">Keep track of your tasks</p>
-      <div class="row">
-        <form id="form" class="col- mx-auto">
-          <div class="input-group">
-            <label for="task_title">Title:</label>
-            <input id="input" class="form-control" placeholder="enter new item">
-            <button id="btn" type="button" class="btn btn-primary">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <div class="top">
 
-    
-    <div class="bottom container-fluid">
-      <div class="container-fluid">
-        <div class="row lists_container">
-          <div class="active_container col-sm">
-            <p class="text-center list_title">Active</p>
-            <ul id="list_active" class="list col-10 mx-auto">
-              <!-- <li>this is a todo list item<input type="checkbox" aria-label="Checkbox for following text input">
-              </li>
-              <li>this is a todo list item<input type="checkbox" aria-label="Checkbox for following text input">
-              </li>
-              <li>this is a todo list item<input type="checkbox" aria-label="Checkbox for following text input">
-              </li> -->
-            </ul>
+      <h1 class="display-4 text-center app-title">Task Manager</h1>
+
+      <div class="container">
+        <div class="row">
+
+          <div class="col">
+            <div class="full-form container">
+              <div class="col">
+                <div class="row">
+                  <div class="container input-top">
+                    <div class="row">
+
+                      <div class="form-group col-auto">
+                        <label>Title</label>
+                        <input id="input" class="form-control" placeholder="e.g: Do groceries">
+                      </div>
+
+                      <div class="form-group col-3">
+                        <label>Prio</label>
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                          <option value="1" selected>Low</option>
+                          <option value="2">Med</option>
+                          <option value="3">High</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-3">
+                        <label>Project</label>
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                          <option value="1" selected>Project 1</option>
+                          <option value="2">Project 2</option>
+                          <option value="3">Project 3</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row-auto">
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" rows="3"></textarea>
+                  </div>
+                </div>
+
+                <div class="row-auto">
+                  <div class="input-group">
+                    <button id="btn" type="button" class="btn btn-primary">Create Task</button>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
           </div>
-          <div class="completed_container col-sm">
-            <p class="text-center list_title">Completed</p>
-            <ul id="list_completed" class="list col-10 mx-auto">
-              <!-- <li>this is a todo list item<input type="checkbox" aria-label="Checkbox for following text input">
-              </li>
-              <li>this is a todo list item<input type="checkbox" aria-label="Checkbox for following text input">
-              </li>
-              <li>this is a todo list item<input type="checkbox" aria-label="Checkbox for following text input">
-              </li> -->
-            </ul>
+
+          <div class="col-6">
+            <div class="bottom container-fluid">
+              <div class="container-fluid">
+                <div class="row lists_container">
+                  <div class="active_container col">
+                    <p class="text-center list_title">Active</p>
+                    <ul id="list_active" class="list col-auto mx-auto">
+
+                      <li id="li-1" class="li_active">Lorem Ipsum is simply dummy text
+                        <input id="box-1" class="checkboxes" type="checkbox">
+                      </li>
+
+                      <li id="li-1" class="li_active">Lorem Ipsum is simply dummy text
+                        <input id="box-1" class="checkboxes" type="checkbox">
+                      </li>
+
+                    </ul>
+                  </div>
+                  <div class="completed_container col">
+                    <p class="text-center list_title">Completed</p>
+
+                    <ul id="list_completed" class="list col-auto mx-auto">
+                      <li id="li-1" class="li_active">Lorem Ipsum is simply dummy text
+                        <input id="box-1" class="checkboxes" type="checkbox">
+                      </li>
+
+                      <li id="li-1" class="li_active">Lorem Ipsum is simply dummy text
+                        <input id="box-1" class="checkboxes" type="checkbox">
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+
+
+    <script src="script.js"></script>
 </body>
 
 </html>
