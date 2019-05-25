@@ -48,9 +48,6 @@ input[type=checkbox] {
     border: 1px solid black;
 }
 
-.lists_container {
-    margin-top: 2rem;
-}
 
 .li_completed {
   text-decoration: line-through;
@@ -69,4 +66,44 @@ input[type=checkbox] {
 
 .app-title {
   margin-bottom: 5rem;
+}
+
+.icon-white, .white a {
+  color: #fff;
+}
+
+.task-title {
+  border-bottom: 1px solid white;
+  padding-bottom: 500px;
+}
+
+
+.task-list{
+  padding: 0;
+}
+
+.task-title-and-desc {
+  padding: 0;
+}
+
+
+.col {
+  padding: 0;
+}
+.col-1 {
+  padding: 0;
+}
+.col-2 {
+  padding: 0;
+}
+.col-3 {
+  padding: 0;
+}
+
+.checkbox-container {
+  margin-top: 7rem;
+}
+
+.row {
+  padding: 0;
 }

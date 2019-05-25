@@ -97,6 +97,16 @@ function createTask(event) {
 
 }
 
+//TO DO 1: change id param with event, and retrieve id from the DOM 
+//TO DO 2: the arr should be identified from the DOM as well
+function deleteTask(id) {
+
+  // 1. delete task from array
+  delTaskFromArr(id, active);
+
+  // 2. delete task from UI
+  delTaskFromUI(id, active)
+}
 
 function completeTask(event) {
 
