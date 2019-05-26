@@ -43,7 +43,6 @@ function editTask(id, title, arr) {
 }
 
 
-
 // -------VIEW--------------------
 function addTaskToUI(task, DOMList) {
   const id = task.id;
@@ -76,7 +75,6 @@ function delTaskFromUI(id, DOMList) {
   const ul = document.getElementById(`list_${DOMList}`);
   ul.removeChild(li);
 }
-
 
 
 //--------CONTROLLER--------------
@@ -157,13 +155,13 @@ function createTask() {
     const task = new Task(id, title, desc);
 
     // 4 Add task to lists
-    addTaskToList(task, "active")
+    addTask(task, "active")
 
   }
 
 }
 
-function addTaskToList(task, type) {
+function addTask(task, type) {
   // 1. add task to the array
   addTaskToArr(task, taskArr[type]);
 
@@ -180,7 +178,8 @@ function deleteTask(id, listType) {
   delTaskFromUI(id, listType)
 }
 
-function moveTaskFromArrToArr(event, srcListType, destListType) {
+
+function moveTaskFromTo(event, srcListType, destListType) {
   // id example in the dom <li id="li-active-3"></li>
 
   // 1. retrieve the id of the li from the HTML
@@ -195,26 +194,26 @@ function moveTaskFromArrToArr(event, srcListType, destListType) {
     console.log(`Trying to complete inexistent task of id ${id}`);
   } else {
 
-    // 5. create a copy of the task obj to be deleted
+    // 4. create a copy of the task obj to be deleted
     let tempObj = JSON.parse(JSON.stringify(taskArr[srcListType][index]));
 
-    // 6. extract it's data
+    // 5. extract it's data
     let tempTitle = tempObj.title;
     let tempDesc = tempObj.desc;
 
-    // 7. delete task from source list
+    // 6. delete task from source list
     deleteTask(id, srcListType);
 
-    // 9. Generate a new unique id for the array where the task will be inserted
+    // 7. Generate a new unique id for the array where the task will be inserted
     let newId = genIdForArr(taskArr[destListType]);
 
-    // 10. create a new Task with the same data
+    // 8. create a new Task with the same data
     let task = new Task(newId, tempTitle, tempDesc);
 
-    // 11. Add task to destination array
+    // 9. Add task to destination array
     addTaskToArr(task, taskArr[destListType]);
 
-    // 12. Add task to the destination DOM list
+    // 10. Add task to the destination DOM list
     addTaskToUI(task, destListType);
   }
 }
@@ -230,14 +229,13 @@ function toggleTaskCompletion(event) {
   // the dest list type will be the opposite
   let destList = (srcList === "active") ? "completed" : "active"
 
-  moveTaskFromArrToArr(event, srcList, destList)
+  moveTaskFromTo(event, srcList, destList)
 }
 
 function taskItemButtonPresssed(event) {
 
   // destructure the id of the button pressed to extract data
   let eventCallComponents = event.target.id.split('-');
-  console.log(eventCallComponents);
 
   let buttonType = eventCallComponents[0];
   let listType = eventCallComponents[1];
