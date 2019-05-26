@@ -34,10 +34,10 @@
 
                 <div class="form-group col-auto">
                   <label>Title</label>
-                  <input id="input" class="form-control" placeholder="e.g: Do groceries">
+                  <input id="title" class="form-control" placeholder="e.g: House chores">
                 </div>
 
-                <div class="form-group col-4">
+                <!-- <div class="form-group col-4">
                   <label>Prio</label>
                   <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                     <option value="1" selected>Low</option>
@@ -53,7 +53,7 @@
                     <option value="2">Project 2</option>
                     <option value="3">Project 3</option>
                   </select>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -61,13 +61,14 @@
           <div class="row-auto">
             <div class="form-group">
               <label>Description</label>
-              <textarea class="form-control" rows="3"></textarea>
+              <textarea class="form-control" id="desc" rows="3" placeholder=
+              "e.g. Take out the trash, clean your room, cook food"></textarea>
             </div>
           </div>
 
           <div class="row-auto">
             <div class="input-group">
-              <button id="btn" type="button" class="btn btn-primary">Create Task</button>
+              <button id="create_task" type="button" class="btn btn-primary">Create Task</button>
             </div>
           </div>
 
@@ -79,9 +80,9 @@
             <div class="active_container col-6">
 
               <p class="text-center list_title">Active</p>
-              <ul id="list_active task-list" class="list col-auto mx-auto">
+              <ul id="list_active" class="list col-auto mx-auto">
 
-                <li id="li-1" class="li_active">
+                <!-- <li id="li-1" class="li_active">
                   <div class="container">
                     <div class="row">
 
@@ -107,13 +108,45 @@
                           <input class="checkboxes" id="box-1" type="checkbox">
                         </div>
 
-
-
                       </div>
 
                     </div>
                   </div>
-                </li>
+                </li> -->
+
+                <!-- <li id="li-1" class="li_active">
+                    <div class="container">
+                      <div class="row">
+  
+                        <div class="col">
+                          <div class="container">
+                            <div class="task-title-and-desc col">
+                              <h5 class="task-title row">Wash car</br> </h5>
+                              <h7 class="task-desc row">
+                                -First rinse it</br>
+                                -Then soap it</br>
+                                -Rinse 2nd time and dry</h7>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="task-buttons align-items-start col-3">
+  
+                          <button type="button" class="close icon-white row " aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+  
+                          <div class="checkbox-container float-right row">
+                            <input class="checkboxes" id="box-1" type="checkbox">
+                          </div>
+  
+  
+  
+                        </div>
+  
+                      </div>
+                    </div>
+                  </li> -->
 
               </ul>
 
@@ -122,7 +155,7 @@
             <div class="completed_container col-6">
 
               <p class="text-center list_title">Completed</p>
-              <ul id="list_completed task-list" class="list col-auto mx-auto">
+              <ul id="list_completed" class="list col-auto mx-auto">
               </ul>
 
             </div>
