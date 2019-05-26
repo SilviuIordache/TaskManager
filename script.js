@@ -30,11 +30,11 @@ function genIdForArr(arr) {
 function delTaskFromArr(id, arr) {
   const index = getIndexOfId(id, arr);
   if (index === -1) {
-    console.log(`Trying to complete inexistent task of id ${id}`);
+    console.log(`Trying to delete inexistent task of id ${id}`);
   } else {
     arr.splice(index, 1);
   }
-    
+
 }
 
 function editTask(id, title, arr) {
@@ -53,13 +53,15 @@ function addTaskToUI(task, DOMList) {
   //const item = `<li id="li-${id}" class="text-wrap li_${DOMList}">${title}
   //<input id="box-${id}" class="checkboxes" type="checkbox"></li>`
 
-  const item = `<li id="li-${id}" class="text wrap li_${DOMList}"><div class="container"><div class="row"><div class="col"><div class="container"><div class="task-title-and-desc col"><h5 class="task-title row">${title}</br></h5><h7 class="task-desc row">${desc}</div></div></div><div class="task-buttons align-items-start col-3"><button type="button" class="close icon-white row"aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="checkbox-container float-right row"><input class="checkboxes" id="box-${DOMList}-${id}" type="checkbox"></div></div></div></div></li>`
+  const item = `<li id="li-${id}" class="text wrap li_${DOMList}"><div class="container"><div class="row"><div class="col"><div class="container"><div class="task-title-and-desc col"><h5 class="task-title row">${title}</br></h5><h7 class="task-desc row">${desc}</div></div></div><div class="task-buttons align-items-start col-3"><button type="button" class="close icon-white row"aria-label="Close"><span aria-hidden="true" id="closebtn-${DOMList}-${id}">&times;</span></button><div class="checkbox-container float-right row"><input class="checkboxes" id="checkbox-${DOMList}-${id}" type="checkbox"></div></div></div></div></li>`
 
-  if (DOMList === "active") {
-    DOM.list_active.insertAdjacentHTML('beforeend', item);
-  } else if (DOMList === "completed") {
-    DOM.list_completed.insertAdjacentHTML('beforeend', item);
-  }
+  // if (DOMList === "active") {
+  //   DOM.list_active.insertAdjacentHTML('beforeend', item);
+  // } else if (DOMList === "completed") {
+  //   DOM.list_completed.insertAdjacentHTML('beforeend', item);
+  // }
+
+  DOM[DOMList].insertAdjacentHTML('beforeend', item);
 
   // Clear Form input fields
   DOM.title_input.value = "";
@@ -79,13 +81,18 @@ function delTaskFromUI(id, DOMList) {
 
 //--------CONTROLLER--------------
 window.onload = init;
-let active = [];
-let completed = [];
+
+// Tasks arrays active/completed
+let taskArr = {
+  active: [],
+  completed: []
+}
 
 function init() {
   getTasksData();
 }
 
+// get tasks from json
 function getTasksData() {
   var request = new XMLHttpRequest();
   request.open("GET", "tasks.json");
@@ -102,6 +109,7 @@ function getTasksData() {
   request.send();
 }
 
+// push data from json to the task arrays
 function parseTasks(tasksJSON) {
   //console.log(tasksJSON);
   data = JSON.parse(tasksJSON);
@@ -111,28 +119,27 @@ function parseTasks(tasksJSON) {
     let nTask = new Task(e.id, e.title, e.desc, e.completed)
 
     if (nTask.completed === true) {
-      completed.push(nTask);
+      taskArr.completed.push(nTask);
     } else {
-      active.push(nTask);
+      taskArr.active.push(nTask);
     }
   })
 }
 
 function addStoredTasksToUI() {
-  if (active.length > 0) {
-    for (item of active) {
+  if (taskArr.active.length > 0) {
+    for (item of taskArr.active) {
       addTaskToUI(item, "active");
     }
   }
-  if (completed.length > 0) {
-    for (item of completed) {
+  if (taskArr.completed.length > 0) {
+    for (item of taskArr.completed) {
       addTaskToUI(item, "completed");
     }
   }
 }
 
-function createTask(event) {
-
+function createTask() {
   if (DOM.title_input.value === "") {
     alert("Please add a task title");
   } else if (DOM.desc_input.value === "") {
@@ -144,40 +151,44 @@ function createTask(event) {
     let desc = DOM.desc_input.value;
 
     // 2. Generate an unique id for array where the task will be inserted
-    const id = genIdForArr(active);
+    const id = genIdForArr(taskArr.active);
 
     // 3. Create the task obj
     const task = new Task(id, title, desc);
-    //constructor(id, title, desc, prio, completed)
 
-    // 4. add task to the array
-    addTaskToArr(task, active);
+    // 4 Add task to lists
+    addTaskToList(task, "active")
 
-    // 5. add task to the DOM
-    addTaskToUI(task, "active");
   }
 
 }
 
-function deleteTask(id) {
+function addTaskToList(task, type) {
+  // 1. add task to the array
+  addTaskToArr(task, taskArr[type]);
 
-  // 1. delete task from array
-  delTaskFromArr(id, active);
-
-  // 2. delete task from UI
-  delTaskFromUI(id, active)
+  // 2. add task to the DOM
+  addTaskToUI(task, type);
 }
 
+function deleteTask(id, listType) {
 
-function moveTaskFromArrToArr(event, arrSrc, arrTar, DOMSrc, DOMTar) {
+  // 1. delete task from array
+  delTaskFromArr(id, taskArr[listType]);
+
+  // 2. delete task from UI
+  delTaskFromUI(id, listType)
+}
+
+function moveTaskFromArrToArr(event, srcListType, destListType) {
   // id example in the dom <li id="li-active-3"></li>
 
   // 1. retrieve the id of the li from the HTML
   let id = parseInt(event.target.id.split('-')[2], 10);
   //console.log(id);
 
-  // 2. retrieve the array index of id
-  let index = getIndexOfId(id, arrSrc);
+  // 2. retrieve the array index of id in srcList
+  let index = getIndexOfId(id, taskArr[srcListType]);
 
   // 3. validate if index found exists in the array
   if (index === -1) {
@@ -185,56 +196,72 @@ function moveTaskFromArrToArr(event, arrSrc, arrTar, DOMSrc, DOMTar) {
   } else {
 
     // 5. create a copy of the task obj to be deleted
-    let tempObj = JSON.parse(JSON.stringify(arrSrc[index]));
+    let tempObj = JSON.parse(JSON.stringify(taskArr[srcListType][index]));
 
     // 6. extract it's data
     let tempTitle = tempObj.title;
     let tempDesc = tempObj.desc;
 
-    // 7. delete the task from the active list
-    delTaskFromArr(id, arrSrc);
-
-    // 8. delete task from UI
-    delTaskFromUI(id, DOMSrc)
+    // 7. delete task from source list
+    deleteTask(id, srcListType);
 
     // 9. Generate a new unique id for the array where the task will be inserted
-    let newId = genIdForArr(arrTar);
+    let newId = genIdForArr(taskArr[destListType]);
 
     // 10. create a new Task with the same data
     let task = new Task(newId, tempTitle, tempDesc);
 
-    // 11. Add task to completed array logic
-    addTaskToArr(task, arrTar);
+    // 11. Add task to destination array
+    addTaskToArr(task, taskArr[destListType]);
 
-    // 12. Add task to the DOM
-    addTaskToUI(task, DOMTar);
+    // 12. Add task to the destination DOM list
+    addTaskToUI(task, destListType);
   }
 }
 
 function toggleTaskCompletion(event) {
-  // id example in the dom <li id="li-active-3"></li>
+  // id examples from DOM
+    // delete button: id="closebtn-active-3"
+    // checkbox button: id="checkbox-completed-2"
 
-  // retrieve list type from DOM elem
-  let listType = event.target.id.split('-')[1];
+  // retrieve src list type from DOM elem
+  let srcList = event.target.id.split('-')[1];
 
-  if (listType === "active") {
-    // completing a task
-    moveTaskFromArrToArr(event, active, completed, "active", "completed");
-  } else {
-    // uncompleting a task
-    moveTaskFromArrToArr(event, completed, active, "completed", "active");
+  // the dest list type will be the opposite
+  let destList = (srcList === "active") ? "completed" : "active"
+
+  moveTaskFromArrToArr(event, srcList, destList)
+}
+
+function taskItemButtonPresssed(event) {
+
+  // destructure the id of the button pressed to extract data
+  let eventCallComponents = event.target.id.split('-');
+  console.log(eventCallComponents);
+
+  let buttonType = eventCallComponents[0];
+  let listType = eventCallComponents[1];
+  let id = parseInt(eventCallComponents[2], 10);
+
+  if (buttonType === "closebtn") {
+    //if it's a close button, we delete the task
+    deleteTask(id, listType);
+
+  } else if (buttonType === "checkbox") {
+    //if it's a checkbox, we perform the task completion logic
+    toggleTaskCompletion(event);
   }
-
 }
 
 const DOM = {
+  active: document.getElementById("list_active"),
+  completed: document.getElementById("list_completed"),
   form: document.getElementById("form"),
   title_input: document.getElementById("title"),
   desc_input: document.getElementById("desc"),
   create_task: document.getElementById("create_task"),
-  list_active: document.getElementById("list_active"),
-  list_completed: document.getElementById("list_completed")
-  //check_box: document.getElementById("id-box")
+  checkbox_btn: document.getElementById("checkbox-btn"),
+  close_btn: document.getElementById("close-btn")
 }
 
 // --- Event Listeners -------
@@ -244,65 +271,6 @@ document.addEventListener('keypress', (event) => {
     createTask();
   }
 })
-
 DOM.create_task.addEventListener('click', createTask);
-DOM.list_active.addEventListener('click', toggleTaskCompletion);
-DOM.list_completed.addEventListener('click', toggleTaskCompletion)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// To be deleted
-function completeTask(event) {
-
-  
-  // 1. retrieve the id of the li from the HTML
-  
-  let id = parseInt(event.target.id.split('-')[1], 10);
-
-  // 2. retrieve the array index of id
-  let index = getIndexOfId(id, active);
-
-  // 3. validate if index found exists in the array
-  if (index === -1) {
-    console.log(`Trying to complete inexistent task of id ${id}`);
-  } else {
-
-    // 4. create a copy of the task obj to be deleted
-    let tempObj = JSON.parse(JSON.stringify(active[index]));
-
-    // 5. extract it's data
-    let tempTitle = tempObj.title;
-    let tempDesc = tempObj.desc;
-
-    // 6. delete the task from the active list
-    delTaskFromArr(id, active);
-
-    // 7. delete task from UI
-    delTaskFromUI(id, active)
-
-    // 8. Generate a new unique id for the array where the task will be inserted
-    let newId = genIdForArr(completed);
-
-    // 9. create a new Task with the same data
-    let task = new Task(newId, tempTitle, tempDesc);
-
-    // 10. Add task to completed array logic
-    addTaskToArr(task, completed);
-
-    // 11. Add task to the DOM
-    addTaskToUI(task, "completed");
-  }
-}
+DOM.active.addEventListener('click', taskItemButtonPresssed);
+DOM.completed.addEventListener('click', taskItemButtonPresssed)
